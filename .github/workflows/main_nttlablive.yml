@@ -33,6 +33,23 @@ jobs:
         tags: nttlablivecr.azurecr.io/next/frontapp:${{ github.sha }}
         file: ./Dockerfile
 
+  deploy-qa:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'qa'
+      url: ${{ steps.deploy-to-qa-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to QA Azure Web App
+      id: deploy-to-qa-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'nttlablive'
+        slot-name: 'qa'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_QA }}
+        images: 'nttlablivecr.azurecr.io/next/frontapp:${{ github.sha }}'
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
