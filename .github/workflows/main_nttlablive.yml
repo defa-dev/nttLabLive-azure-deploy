@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: nttlablivecr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_3ea11b854a8249afb38df80a76a14ed6 }}/next/frontapp:${{ github.sha }}
+        tags: nttlablivecr.azurecr.io/next/frontapp:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
